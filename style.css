@@ -12,7 +12,6 @@ p {
   margin: auto;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   gap: 1rem;
 }
@@ -93,4 +92,14 @@ p {
 .restart {
   display: block;
   margin: 10px auto;
+}
+
+.players {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-align: left;
+}
+
+.players button {
+  font-size: 0.6rem;
 }

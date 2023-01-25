@@ -19,8 +19,18 @@
     ]
   };
 
-  const playerName = window.prompt("What is your name?");
-  game.players[0] = playerName;
+  const playerNameElem = document.querySelector(".player-one .player-name");
+  const changePlayerNameBtn = document.getElementById("change-name");
+  changePlayerNameBtn.addEventListener("click", changePlayerName);
+
+  function changePlayerName() {
+    const playerName = window.prompt("What is your name?");
+    game.players[0] = playerName;
+    playerNameElem.innerHTML = playerName;
+    document.getElementById("turn").innerHTML = `${playerName}'s`;
+  }
+
+  game.players[0] = "Unknown";
   game.players[1] = "Computer";
 
   document.addEventListener("click", playOnClick);
