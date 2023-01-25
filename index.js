@@ -3,6 +3,7 @@
     xTurn: true,
     xState: [],
     oState: [],
+    players: [],
     winningStates: [
       // rows
       ["0", "1", "2"],
@@ -18,13 +19,19 @@
     ]
   };
 
+  const playerName = window.prompt("What is your name?");
+  game.players[0] = playerName;
+  game.players[1] = "Computer";
+
   document.addEventListener("click", playOnClick);
   displayTurn();
 
   restart();
 
   function displayTurn() {
-    document.querySelector("#turn").innerText = game.xTurn ? "X" : "O";
+    document.querySelector("#turn").innerText = game.xTurn
+      ? `${game.players[0]}'s`
+      : `${game.players[1]}'s`;
   }
 
   function autoPlay() {
@@ -170,8 +177,8 @@
           .forEach((cell) => cell.classList.add("disabled"));
         document.querySelector(".game-over").classList.add("visible");
         document.querySelector(".game-over-text").textContent = xWins
-          ? "X win!"
-          : "O wins!";
+          ? game.players[0] + " wins!"
+          : game.players[1] + " wins!";
 
         return true;
       }
