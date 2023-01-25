@@ -65,13 +65,52 @@
   }
 
   function getEasyWinCell() {
-    for (winningState of game.winningStates) {
+    const cornerCells = ["0", "2", "6", "8"];
+    if (!game.xState.includes("4") && !game.oState.includes("4")) {
+      return "4";
+    }
+
+    if (
+      cornerCells.every(
+        (c) => !game.xState.includes(c) && !game.oState.includes(c)
+      )
+    ) {
+      return cornerCells[Math.floor(Math.random() * cornerCells.length)];
+    }
+
+    for (let winningState of game.winningStates) {
+      let xFilledCells = winningState.filter((s) => game.xState.includes(s));
+      if (xFilledCells.length === 2) {
+        const unfilledCell = winningState.find((s) => !game.xState.includes(s));
+        if (!game.oState.includes(unfilledCell)) {
+          return unfilledCell;
+        }
+      }
+    }
+
+    for (let winningState of game.winningStates) {
       const filledCells = winningState.filter((s) => {
         return game.xTurn ? game.xState.includes(s) : game.oState.includes(s);
       });
 
       if (filledCells.length > 1) {
-        return winningState.find((s) => !filledCells.includes(s));
+        const unfilledCell = winningState.find((s) => !filledCells.includes(s));
+        if (!game.xState.includes(unfilledCell)) {
+          return unfilledCell;
+        }
+      }
+
+      if (filledCells.length > 0) {
+        const availableCells = winningState.filter((s) => {
+          return !game.oState.includes(s) && !game.xState.includes(s);
+        });
+        if (availableCells.length) {
+          for (let cell of availableCells) {
+            if (!game.xState.includes(cell) && !game.oState.includes(cell)) {
+              return cell;
+            }
+          }
+        }
       }
     }
   }
