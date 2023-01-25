@@ -79,6 +79,20 @@
     }
 
     for (let winningState of game.winningStates) {
+      const filledCells = winningState.filter((s) => {
+        return game.xTurn ? game.xState.includes(s) : game.oState.includes(s);
+      });
+
+      if (filledCells.length === 2) {
+        const unfilledCell = winningState.find((s) => !game.oState.includes(s));
+        console.log({ unfilledCell });
+        if (!game.xState.includes(unfilledCell)) {
+          return unfilledCell;
+        }
+      }
+    }
+
+    for (let winningState of game.winningStates) {
       let xFilledCells = winningState.filter((s) => game.xState.includes(s));
       if (xFilledCells.length === 2) {
         const unfilledCell = winningState.find((s) => !game.xState.includes(s));
@@ -93,14 +107,7 @@
         return game.xTurn ? game.xState.includes(s) : game.oState.includes(s);
       });
 
-      if (filledCells.length > 1) {
-        const unfilledCell = winningState.find((s) => !filledCells.includes(s));
-        if (!game.xState.includes(unfilledCell)) {
-          return unfilledCell;
-        }
-      }
-
-      if (filledCells.length > 0) {
+      if (filledCells.length === 1) {
         const availableCells = winningState.filter((s) => {
           return !game.oState.includes(s) && !game.xState.includes(s);
         });

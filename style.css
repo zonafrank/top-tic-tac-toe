@@ -3,6 +3,11 @@ body {
   font-family: sans-serif;
 }
 
+h1,
+p {
+  margin: 0;
+}
+
 .container {
   margin: auto;
   display: flex;
@@ -66,12 +71,12 @@ body {
 .game-over {
   display: none;
   box-shadow: rgb(0 0 0 / 50%) 0 0 0 9999px;
-  margin-top: 2rem;
-  padding: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
 }
 
 .game-over-text {
-  font-size: 60px;
+  font-size: 3rem;
   font-weight: bold;
   font-family: sans-serif;
   text-align: center;
