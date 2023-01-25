@@ -29,12 +29,29 @@
 
   function autoPlay() {
     const gridCells = Array.from(document.querySelectorAll(".grid-cell"));
+
     const unfilledCells = gridCells.filter((cell) => {
       return !cell.classList.contains("disabled");
     });
 
-    const selectedCell =
-      unfilledCells[Math.floor(Math.random() * unfilledCells.length)];
+    let selectedCell;
+    let selectedCellValue;
+
+    if (!game.xTurn) {
+      selectedCellValue = getEasyWinCell();
+      if (selectedCellValue) {
+        const selector = `div[data-value="${selectedCellValue}"]`;
+        selectedCell = document.querySelector(selector);
+      }
+    }
+
+    if (!selectedCellValue) {
+      const randomCellSelect = Math.floor(Math.random() * unfilledCells.length);
+      selectedCell = unfilledCells[randomCellSelect];
+      selectedCellValue = selectedCell.dataset.value;
+    }
+
+    game.oState.push(selectedCellValue);
     selectedCell.classList.add(game.xTurn ? "x" : "o");
     selectedCell.classList.add("disabled");
 
@@ -45,6 +62,18 @@
 
     game.xTurn = !game.xTurn;
     displayTurn();
+  }
+
+  function getEasyWinCell() {
+    for (winningState of game.winningStates) {
+      const filledCells = winningState.filter((s) => {
+        return game.xTurn ? game.xState.includes(s) : game.oState.includes(s);
+      });
+
+      if (filledCells.length > 1) {
+        return winningState.find((s) => !filledCells.includes(s));
+      }
+    }
   }
 
   function playOnClick(event) {
